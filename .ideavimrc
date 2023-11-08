@@ -1,3 +1,4 @@
+
 """
 " :map, :noremap => normal, visual, select
 " :nmap, :nnoremap => normal
@@ -10,29 +11,30 @@ let mapleader=" "
 
 set ignorecase
 set smartcase
-set clipboard+=unnamed
+set clipboard=unnamed
 
-nnoremap <C-a> gg<S-v>G
-nmap <C-z> :action ToggleDistractionFreeMode<CR>
-vmap <C-j> :action EditorUnSelectWord<CR>
-vmap <C-k> :action EditorSelectWord<CR>
+noremap <A-=> j
+nnoremap <A-v> <C-v>
+
+nmap <A-z> :action ToggleDistractionFreeMode<CR>
+vmap <A-j> :action EditorUnSelectWord<CR>
+vmap <A-k> :action EditorSelectWord<CR>
 
 nmap <Leader>c ciw
 nmap <Leader>x viwx
 nmap <Leader>d viwd
-nnoremap <Leader>p viw"_x"kP
-nnoremap <Leader>P viw"_xP
+nmap <Leader>p "kgriw
+nmap <Leader>P griw
 nmap <Leader>o o<ESC>
 nmap <Leader>O O<ESC>
 nmap <Leader><CR> i<CR><ESC>
 
-nmap ' ,
+map '<CR> <ESC>
 inoremap jj <ESC>
 inoremap jk <ESC>
+inoremap kl <ESC>
 map <S-h> h
 map <S-l> l
-vmap <S-k> k
-vmap <S-j> j
 map ( 10k
 map ) 10j
 
@@ -44,28 +46,32 @@ nnoremap yy "kyy
 noremap p "kp
 noremap P p
 
-""" virtual mode
-vnoremap < <gv
+"" virtual mode
+nmap <Leader>vl ^v$
+vmap <Leader>vl ^vv$
+vmap K :action MoveLineUp<CR>
+vmap J :action MoveLineDown<CR>
+vnoremap <<gv
 vnoremap > >gv
-xmap K :action MoveLineUp<CR>
-xmap J :action MoveLineDown<CR>
 
 """ Navigation
-nnoremap <Leader>vs :action SplitVertically<CR>
-nnoremap <Leader>sp :action SplitHorizontally<CR>
-nnoremap <Leader>\ :action SplitVertically<CR>
-nnoremap <Leader>- :action SplitHorizontally<CR>
-nnoremap <Leader>= :action Unsplit<CR>
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <S-TAB> :action PreviousTab<CR>
-nnoremap <TAB> :action NextTab<CR>
-nnoremap <Leader>en :action EditSourceInNewWindow<CR>
-nnoremap <Leader>n :action NextWindow<CR>
-nnoremap <Leader>qa :action CloseAllEditors<CR>
+map <Leader>\ :action SplitVertically<CR>
+map <Leader>- :action SplitHorizontally<CR>
+map <Leader>= :action Unsplit<CR>
+map <Leader>m :action MoveEditorToOppositeTabGroup<CR>
+map <Leader>qa :action CloseAllEditors<CR>
+nnoremap <A-h> <C-w>h
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-l> <C-w>l
+map <S-TAB> :action PreviousTab<CR>
+map <TAB> :action NextTab<CR>
 nnoremap <Leader>w :wq<CR>
+
+""" Window
+map <Leader>nw :action EditSourceInNewWindow<CR>
+map <Leader>nq :action PreviousWindow<CR>
+map <Leader>ne :action NextWindow<CR>
 
 """ Editing source code
 set ideajoin
@@ -80,24 +86,24 @@ map ge :action GotoNextError<CR>
 map gE :action GotoPreviousError<CR>
 map gD :action GotoImplementation<CR>
 
-""" Source Code Navigation
+""" Searching and Source Code Navigation (lsp)
 set incsearch
 map <Leader>ll :action RecentLocations<CR>
 map <Leader>lh :action LocalHistory.ShowHistory<CR>
 map <Leader>lu :action FindUsages<CR>
 map <Leader>lr :action GotoRelated<CR>
 map <Leader>lt :action TypeHierarchy<CR>
-map <Leader>lm :action FileStructurePopup<CR>
+map <Leader>ls :action FileStructurePopup<CR>
+map <Leader>lf :action ReformatCode<CR>
 
-""" Searching
-map <C-e> :action RecentFiles<CR>
+"""Searching
 map <Leader>fe :action RecentFiles<CR>
 map <Leader>ft :action GotoTest<CR>
 map <Leader>fc :action GotoClass<CR>
 map <Leader>ff :action GotoFile<CR>
 map <Leader>f/ :action FindInPath<CR>
 
-""" Generate / refactorings
+"" Generate/Refactioring
 map <Leader>go :action OverrideMethods<CR>
 map <Leader>gi :action ImplementMethods<CR>
 map <Leader>gp :action Generate<CR>
@@ -105,23 +111,23 @@ map <Leader>rp :action Refactorings.QuickListPopupAction<CR>
 map <Leader>rn :action Inline<CR>
 map <Leader>rm :action ExtractMethod<CR>
 map <Leader>rv :action IntroduceVariable<CR>
-map <Leader>ro :action OptimizeImports<CR>
+map <Leader>rr :action RenameElement<CR>
 
 """ Running and Debugging
 nnoremap ,r :action Run<CR>
-nnoremap ,c :action RunClass<CR>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+nnoremap ,c :action RunClass<CR>
 nnoremap ,p :action ChooseRunConfiguration<CR>
-nnoremap ,s :action Stop<CR>
-"""nnoremap ,t :action ActivateRunToolWindow<CR>
+nnoremap ,t :action ActivateRunToolWindow<CR>
 nnoremap ,u :action Rerun<CR>
-nnoremap ,f :action RerunFailedTests<CR>
-nnoremap ,b :action ToggleLineBreakpoint<CR>
-nnoremap ,d :action ContextDebug<CR>
-nnoremap ,n :action ActivateDebugToolWindow<CR>
+nnoremap ,s :action Stop<CR>
+""" nnoremap rf :action RerunFailedTests<CR>
+"""nnoremap rb :action ToggleLineBreakpoint<CR>
+"""nnoremap rd :action ContextDebug<CR>
+"""nnoremap rn :action ActivateDebugToolWindow<CR>
 
 """ Tool windows
-nnoremap <C-p> :action JumpToLastWindow<CR>
-nnoremap <C-x> :action HideAllWindows<CR>
+nnoremap <A-p> :action JumpToLastWindow<CR>
+nnoremap <A-x> :action HideAllWindows<CR>
 
 """ easy motion
 set easymotion
@@ -138,19 +144,27 @@ set multicursor
 map m/ <Plug>(multicursor-mc/)
 map mf <Plug>(multicursor-mc^)
 map mb <Plug>(multicursor-mc$)
-map mc <A-n>
-map mx <A-x>
+map mm <A-n>
 map mp <A-p>
+map mx <A-x>
 
 """ commentary
 set commentary
 
 set quickscope
 
-""" surrround
+""" surround
 set surround
-map <Leader>y ysiw
+nmap <Leader>y ysiw
 
 """ sneak
 set sneak
+
+""" replace with register
+set ReplaceWithRegister
+
+""" which-key
+set which-key
+set notimeout
+"""set timeoutlen=2000
 
