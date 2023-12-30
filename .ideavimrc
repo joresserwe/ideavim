@@ -88,6 +88,8 @@ map <Leader>lu :action FindUsages<CR>
 map <Leader>lr :action GotoRelated<CR>
 map <Leader>lt :action TypeHierarchy<CR>
 map <Leader>lm :action FileStructurePopup<CR>
+map <Leader>lf :action ReformatCode<CR>
+map <Leader>lo :action OptimizeImports<CR>
 
 """ Searching
 map <C-e> :action RecentFiles<CR>
